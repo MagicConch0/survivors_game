@@ -6,7 +6,7 @@ public partial class SwordAbility : Node2D
 {
 
 	private HitboxComponent _hitboxComponent;//声明一个私有字段用于存储节点引用
-	private HitboxComponent HitboxComponent => _hitboxComponent ??= GetNode<HitboxComponent>("HitboxComponent");
+	public HitboxComponent HitboxComponent => _hitboxComponent ??= GetNode<HitboxComponent>("HitboxComponent");//获取伤害组件
 	
 
 	// Called when the node enters the scene tree for the first time.

@@ -12,7 +12,7 @@ public partial class VialDropComponent : Node
 	[Export]
 	public PackedScene experienceVial;//暴露经验瓶场景
 	[Export]
-	public HealthComponent healthComponent;//暴露生命组建
+	public HealthComponent healthComponent;//暴露生命组件
 	[Export(PropertyHint.Range, "0,1,0.01,hint_string(概率:0=不可能,1=必然)")]
 	public float drop_percent = .5f;//设置掉率概率，默认50%
 	public override void _Ready()
@@ -26,10 +26,6 @@ public partial class VialDropComponent : Node
 
 
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 	/* 死亡时调用，执行生成经验瓶 */
 	private void Ondied()
 	{

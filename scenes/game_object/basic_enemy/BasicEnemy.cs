@@ -4,18 +4,7 @@ using System;
 public partial class BasicEnemy : CharacterBody2D
 {
 	[Export]
-	public float speed1 = 100;//移送速度
-
-	HealthComponent healthComponent;//生命组件，负责控制角色的生命值与死亡动作
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Area2D area2D = GetNode<Area2D>("Area2D");
-		area2D.AreaEntered += OnAreaEntered;
-		healthComponent = GetNode<HealthComponent>("HealthComponent");
-	}
-
+	public float speed1 = 50;//移动速度
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -41,14 +30,7 @@ public partial class BasicEnemy : CharacterBody2D
 	}
 
 
-	private void OnAreaEntered(Area2D area)
-	{
-		if(healthComponent == null){
-			return ;
-		}
-		healthComponent.Damage(100);
-		
-	}
+
 
 }
 

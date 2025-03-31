@@ -13,7 +13,9 @@ public partial class SwordAbilityController : Node
 
 	[Export]
 	public float max_range = 150;//最大触发范围
-								 // Called when the node enters the scene tree for the first time.
+
+
+	public float damage = 5; //伤害
 	public override void _Ready()
 	{
 		Timer timer = GetNode<Timer>("Timer");
@@ -68,13 +70,15 @@ public partial class SwordAbilityController : Node
 		//获取玩家的父节点（主节点）
 		Node main = player.GetParent();
 		//实例化剑技能
-		var sword_instance = sword_ability.Instantiate() as Node2D;
+		var sword_instance = sword_ability.Instantiate() as SwordAbility;
 		//设置剑技能的位置
 		sword_instance.GlobalPosition = enemies2D[0].GlobalPosition;
 		sword_instance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0.0,Math.Tau)) * 5f;//设置一个随机半径是10的圆形随机范围
 		//设置剑技能的旋转角度
 		Vector2 vector2 = enemies2D[0].GlobalPosition - sword_instance.GlobalPosition;
 		sword_instance.GlobalRotation = vector2.Angle();
+		//设置剑技能的伤害
+		sword_instance.HitboxComponent.damage = damage;
 		//将剑技能添加到主节点
 		main.AddChild(sword_instance);
 	}
