@@ -20,9 +20,10 @@ script = ExtResource("1_yibgo")
 
 [node name="VialDropComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_pcrk2")]
 healthComponent = NodePath("../HealthComponent")
+drop_percent = 1.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_isd1k")]
-maxHealth = 10.0
+maxHealth = 5.0
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_elloc")]
 healthComponent = NodePath("../HealthComponent")
