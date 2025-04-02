@@ -16,9 +16,11 @@ public partial class ExperienceManager : Node
 	
 	[Signal]
 	public delegate void ExperienceUpdateEventHandler(float currentLevel,float targetExperience);//声明经验更新信号
+	[Signal]
+    public delegate void LevelUpEventHandler(int newLevel);//声明升级信号
 
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		GameEvents gameEvents = GetNode<GameEvents>("/root/GameEvents"); // 自定义信号类，此类已在项目中设置为全局自动加载
 		gameEvents.ExperienceVialCollected += OnExperienceVialCollected;
@@ -40,6 +42,7 @@ public partial class ExperienceManager : Node
 			targetExperience += TARGET_EXPERIENCE_GROWTH;//提升经验上限
 			currentExperience =_experience;//重置当前经验，如果升级后经验有剩余则并入下一级
 			EmitSignal("ExperienceUpdate",currentExperience,targetExperience);//发射经验更新信号
+			EmitSignal("LevelUp",currentLevel);//发射升级信号
 		}
 	}
 

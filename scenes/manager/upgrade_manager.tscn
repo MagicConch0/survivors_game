@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8jundih2js3h"]
+
+[ext_resource type="Script" uid="uid://cfeuoc7dk8q7y" path="res://scenes/manager/UpgradeManager.cs" id="1_pfuvr"]
+
+[node name="UpgradeManager" type="Node"]
+script = ExtResource("1_pfuvr")
+upgrade_pool = Array[Node]([null])
