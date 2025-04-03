@@ -11,7 +11,13 @@ public partial class UpgradeManager : Node
 	[Export]
 	public ExperienceManager experienceManager;//导出经验管理器
 
-	private Dictionary<string,Dictionary> current_upgrade = new();//定义字典：当前升级
+	[Export]
+	private PackedScene upgradeScreen;//导出升级时显示的ui场景
+
+	private Dictionary<string, Dictionary> current_upgrade = new();//定义字典：当前升级
+
+
+
 
 
 	public override void _Ready()
@@ -27,20 +33,33 @@ public partial class UpgradeManager : Node
 	{
 		//升级时从能力池中随机选择一个，upgrade_pool.PickRandom()作用是从数组中随机选择一项返回，可能返回空值
 		Ability_upgrade chosen_upgrade = upgrade_pool.PickRandom();
-		if(chosen_upgrade == null){
+		if (chosen_upgrade == null)
+		{
 			return;
 		}
-		var has_upgrade =  current_upgrade.ContainsKey(chosen_upgrade.id);//查看是否已经升级过
-		if(!has_upgrade){//如果没有升级过，这添加该升级项
-			current_upgrade[chosen_upgrade.id] = new Dictionary(){
-				{"resource",chosen_upgrade},//技能
+		UpgradeScreen upgradeScreen_instance = upgradeScreen.Instantiate()  as UpgradeScreen;//实例化升级ui界面
+		AddChild(upgradeScreen_instance);//添加到场景中
+		upgradeScreen_instance.SetAbilityUpgrades([chosen_upgrade]);//添入可升级的技能，用于制作技能卡牌
+
+		ApplyUpgrade(chosen_upgrade);
+	}
+	/* 应用升级项 */
+	private void ApplyUpgrade(Ability_upgrade ability_Upgrade)
+	{
+
+		var has_upgrade = current_upgrade.ContainsKey(ability_Upgrade.id);//查看是否已经升级过
+		if (!has_upgrade)
+		{//如果没有升级过，这添加该升级项
+			current_upgrade[ability_Upgrade.id] = new Dictionary(){
+				{"resource",ability_Upgrade},//技能
 				{"quantity",1}//升级计数
 			};
-		}else{//如果升级过
-			Dictionary upgradeData =  current_upgrade[chosen_upgrade.id];
-			upgradeData["quantity"]  =  (int)upgradeData["quantity"] + 1 ;//升级计数加1
-        }
-			
+		}
+		else
+		{//如果升级过
+			Dictionary upgradeData = current_upgrade[ability_Upgrade.id];
+			upgradeData["quantity"] = (int)upgradeData["quantity"] + 1;//升级计数加1
+		}
 	}
 
 }

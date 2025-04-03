@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://m7q43hmtukti"]
+[gd_scene load_steps=10 format=3 uid="uid://m7q43hmtukti"]
 
 [ext_resource type="PackedScene" uid="uid://c06m12qpu0e4b" path="res://scenes/UI/arena_time_ui.tscn" id="1_amy3n"]
 [ext_resource type="PackedScene" uid="uid://crj77cua4xgya" path="res://scenes/game_object/player/player.tscn" id="1_dhg80"]
@@ -9,8 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://hfo306j2wbnb" path="res://scenes/manager/experience_manager.tscn" id="3_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://cuj2gphlavdpl" path="res://scenes/manager/basic_enemy_manager.tscn" id="5_7uq4x"]
 [ext_resource type="PackedScene" uid="uid://c8jundih2js3h" path="res://scenes/manager/upgrade_manager.tscn" id="6_b1x3f"]
-[ext_resource type="Script" uid="uid://di2uo7qmdc6h5" path="res://resource/upgrades/Ability_upgrade.cs" id="7_ouso4"]
-[ext_resource type="Resource" uid="uid://c4r0geh1c20b2" path="res://resource/upgrades/sword_rate.tres" id="8_blune"]
 
 [node name="main" type="Node"]
 
@@ -29,7 +27,6 @@ experienceManager = NodePath("../ExperienceManager")
 [node name="EnemyManager" parent="." instance=ExtResource("5_7uq4x")]
 
 [node name="UpgradeManager" parent="." node_paths=PackedStringArray("experienceManager") instance=ExtResource("6_b1x3f")]
-upgrade_pool = Array[ExtResource("7_ouso4")]([ExtResource("8_blune")])
 experienceManager = NodePath("../ExperienceManager")
 
 [node name="------------------------------------------------2" type="Node" parent="."]

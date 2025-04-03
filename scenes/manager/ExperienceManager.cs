@@ -14,6 +14,9 @@ public partial class ExperienceManager : Node
 	public int TARGET_EXPERIENCE_GROWTH = 5;//每升一级最大经验增加5
 
 	
+
+
+	
 	[Signal]
 	public delegate void ExperienceUpdateEventHandler(float currentLevel,float targetExperience);//声明经验更新信号
 	[Signal]
