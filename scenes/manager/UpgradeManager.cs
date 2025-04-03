@@ -40,11 +40,19 @@ public partial class UpgradeManager : Node
 		UpgradeScreen upgradeScreen_instance = upgradeScreen.Instantiate()  as UpgradeScreen;//实例化升级ui界面
 		AddChild(upgradeScreen_instance);//添加到场景中
 		upgradeScreen_instance.SetAbilityUpgrades([chosen_upgrade]);//添入可升级的技能，用于制作技能卡牌
+		upgradeScreen_instance.SelelctAbility += OnSelectAbility;//连接选择技能卡片信号
 
-		ApplyUpgrade(chosen_upgrade);
+		
 	}
-	/* 应用升级项 */
-	private void ApplyUpgrade(Ability_upgrade ability_Upgrade)
+
+/* 选择要升级的技能卡片后执行 */
+    private void OnSelectAbility(Ability_upgrade ability_Upgrade)
+    {
+        ApplyUpgrade(ability_Upgrade);//应用升级项
+    }
+
+    /* 应用升级项 */
+    private void ApplyUpgrade(Ability_upgrade ability_Upgrade)
 	{
 
 		var has_upgrade = current_upgrade.ContainsKey(ability_Upgrade.id);//查看是否已经升级过
