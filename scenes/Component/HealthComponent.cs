@@ -10,7 +10,7 @@ public partial class HealthComponent : Node
 	[Signal]
 	public delegate void diedEventHandler();//定义死亡信号
 
-	private float currentHealth;//当前血量
+	public float currentHealth;//当前血量
 
 	public override void _Ready()
 	{
@@ -23,7 +23,7 @@ public partial class HealthComponent : Node
 	public void Damage(float damage)
 	{
 		currentHealth = Math.Max(currentHealth - damage, 0);//受到伤害后，当前生命值减去伤害，且限制最低生命值为0
-		if(currentHealth == 0 ){//如果生命值等于0，发出死亡信号，随机消除自身的父节点
+		if(currentHealth == 0 ){//如果生命值等于0，发出死亡信号，随即消除自身的父节点
 			EmitSignal("died");
 			Owner.QueueFree();//Owner表示当前节点的"拥有者"节点。它建立了节点之间的父子关系之外的另一种重要关联。
 		}
