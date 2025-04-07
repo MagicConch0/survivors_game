@@ -1,28 +1,37 @@
 using Godot;
 using System;
-
+/* 游戏时间 */
 public partial class ArenaTimeManager : Node
 {
 
 	[Export]
 	public Timer timer;
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		
-	}
+
+	[Export]
+	public PackedScene VictoryScreenScene;
+
+    public override void _Ready()
+    {
+
+		timer.Timeout += OnTimeOut;
+		if(VictoryScreenScene == null ){
+			return;
+		}
+        
+    }
 
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
-		
-
-	}
-	/*
-		获取计时器剩余时间
+    /*
+		获取计时器剩余时间	
 	 */
-   public double GetTimer(){
+    public double GetTimer(){
 	   return timer.WaitTime - timer.TimeLeft;
    }
+
+   /* 当游戏时间结束后显示胜利界面 */
+    private void OnTimeOut()
+    {
+        Node victoryScreen = VictoryScreenScene.Instantiate();
+		AddChild(victoryScreen);
+    }
 }
