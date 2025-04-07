@@ -37,7 +37,11 @@ public partial class VialDropComponent : Node
 		}
 		Node2D vial_instance = experienceVial.Instantiate() as Node2D;
 		vial_instance.GlobalPosition = (Owner as Node2D).GlobalPosition;
-		Owner.GetParent().CallDeferred("add_child", vial_instance);//CallDeferred:延迟调用，保证在Owner节点销毁后再生成
+
+
+		//获取实体层，将敌人添加到实体层中，用y轴判断位置，y轴大的覆盖y轴小的
+		Node2D entitys_layer = GetTree().GetFirstNodeInGroup("enities_layer") as Node2D;
+		entitys_layer.CallDeferred("add_child", vial_instance);//CallDeferred:延迟调用，保证在Owner节点销毁后再生成
 	}
 
 }

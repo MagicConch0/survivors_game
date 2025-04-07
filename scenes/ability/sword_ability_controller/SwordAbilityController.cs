@@ -14,21 +14,34 @@ public partial class SwordAbilityController : Node
 	[Export]
 	public float max_range = 150;//最大触发范围
 
+	private String ID = "sword_rate";//技能id
 
+	private double default_wait_time;//默认等待时间
+
+	Timer timer;//计时器
 	public float damage = 5; //伤害
 	public override void _Ready()
 	{
-		Timer timer = GetNode<Timer>("Timer");
+		timer = GetNode<Timer>("Timer");
+		default_wait_time = timer.WaitTime;
 		//连接信号：将timer的Timeout信号连接到当前类的OnTimerTimeout方法
 		timer.Timeout += OnTimerTimeout;
+		GameEvents.Instance.AbilityUpgradeAdded += OnAbilityUpgradeAdded;
 
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	/* 当剑技能升级时触发 */
+	private void OnAbilityUpgradeAdded(Ability_upgrade upgrade, Godot.Collections.Dictionary<string, Dictionary> currentAbility)
 	{
+		if (!upgrade.id.Equals(ID))
+		{//如果升级的技能不是剑技能
+			return;
+		}
+		float percent = (int)currentAbility[ID]["quantity"] * .1f;//获取已经升级的次数，例：每次升级加快10%，已升级5此，则5*0.1 = 0.5，也就是50%
+		timer.WaitTime = default_wait_time / (1 + percent);
+		timer.Start();
+		GD.Print(timer.WaitTime);
 	}
-
+	/* 当计时器结束时，生成在敌人位置生成一把剑 */
 	private void OnTimerTimeout()
 	{
 		//获取玩家节点
@@ -73,14 +86,15 @@ public partial class SwordAbilityController : Node
 		var sword_instance = sword_ability.Instantiate() as SwordAbility;
 		//设置剑技能的位置
 		sword_instance.GlobalPosition = enemies2D[0].GlobalPosition;
-		sword_instance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0.0,Math.Tau)) * 5f;//设置一个随机半径是10的圆形随机范围
-		//设置剑技能的旋转角度
+		sword_instance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0.0, Math.Tau)) * 5f;//设置一个随机半径是10的圆形随机范围
+																										//设置剑技能的旋转角度
 		Vector2 vector2 = enemies2D[0].GlobalPosition - sword_instance.GlobalPosition;
 		sword_instance.GlobalRotation = vector2.Angle();
 		//设置剑技能的伤害
 		sword_instance.HitboxComponent.damage = damage;
-		//将剑技能添加到主节点
-		main.AddChild(sword_instance);
+		//将剑技能添加到前景层节点，保证其不会被其它节点贴图覆盖
+		Node2D node2D = GetTree().GetFirstNodeInGroup("Foreground_layer") as Node2D;
+		node2D.AddChild(sword_instance);
 	}
 
 }

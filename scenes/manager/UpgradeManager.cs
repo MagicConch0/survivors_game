@@ -14,7 +14,10 @@ public partial class UpgradeManager : Node
 	[Export]
 	private PackedScene upgradeScreen;//导出升级时显示的ui场景
 
+
 	private Dictionary<string, Dictionary> current_upgrade = new();//定义字典：当前升级
+
+	 
 
 
 
@@ -27,6 +30,7 @@ public partial class UpgradeManager : Node
 			return;
 		}
 		experienceManager.LevelUp += OnLevelUp;
+
 	}
 	/* 当升级时触发 */
 	private void OnLevelUp(int newLevel)
@@ -49,6 +53,7 @@ public partial class UpgradeManager : Node
     private void OnSelectAbility(Ability_upgrade ability_Upgrade)
     {
         ApplyUpgrade(ability_Upgrade);//应用升级项
+
     }
 
     /* 应用升级项 */
@@ -68,6 +73,7 @@ public partial class UpgradeManager : Node
 			Dictionary upgradeData = current_upgrade[ability_Upgrade.id];
 			upgradeData["quantity"] = (int)upgradeData["quantity"] + 1;//升级计数加1
 		}
+		GameEvents.Instance.EmitAbilityUpgradeAdded(ability_Upgrade,current_upgrade);//发射升级技能信号
 	}
 
 }

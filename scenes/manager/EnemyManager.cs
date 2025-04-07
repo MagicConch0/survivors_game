@@ -37,6 +37,9 @@ public partial class EnemyManager : Node
 		//实例化敌人
         Node2D enemy =  enemyScene.Instantiate() as Node2D;
 		enemy.GlobalPosition = spawn_position;//设置敌人位置
-		GetParent().AddChild(enemy);//添加到父节点
+
+		//获取实体层，将敌人添加到实体层中，用y轴判断位置，y轴大的覆盖y轴小的
+		Node2D entitys_layer = GetTree().GetFirstNodeInGroup("enities_layer") as Node2D;
+		entitys_layer.AddChild(enemy);//添加到实体层节点
     }
 }
