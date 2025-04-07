@@ -11,31 +11,32 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float ACCELERATION_SMOOTHING = 25;//加速度平滑度
 
-
 	private HealthComponent healthComponent;//获取健康组件
 
 	private Timer damageIntervalTimer;//用于控制可受到伤害的间隔
 
+	private ProgressBar hp ;//获取血条
 	private int number_colliding_bodies = 0;//与玩家碰撞的敌人数量
 	public override void _Ready()
 	{
-		healthComponent = GetNode("HealthComponent") as HealthComponent;//初始化健康组件
-		damageIntervalTimer = GetNode("DamageIntervalTimer") as Timer;//初始化伤害间隔计时器
+		healthComponent = GetNode<HealthComponent>("HealthComponent");//初始化健康组件
+		damageIntervalTimer = GetNode<Timer>("DamageIntervalTimer");//初始化伤害间隔计时器
 		(GetNode("CollisionArea2D") as Area2D).BodyEntered += OnBodyEntered;//监听是否有敌人进入玩家碰撞范围
 		(GetNode("CollisionArea2D") as Area2D).BodyExited += OnBOdyExited;//监听是否有敌人进入玩家碰撞范围
 		if (damageIntervalTimer != null)
 		{
 			damageIntervalTimer.Timeout += OnDamageIntervalTimerTimerOut;//当伤害间隔超时时，检测是否要收到伤害
 		}
-
+		hp = GetNode<ProgressBar>("HP");//初始化血条
+		hp.MaxValue = healthComponent.maxHealth;//初始化最大血量
+		hp.Value = healthComponent.currentHealth;//初始化当前血量
+		healthComponent.HelathChanged += OnHelathChange;//连接血量改变事件
 	}
 
 
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
 
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-
-	public override void _Process(double delta)
+    public override void _Process(double delta)
 	{
 		Vector2 target_speed = GetMoverInput() * SPEED;
 		//使任务角色的速度逐渐接近目标速度，以此来实现平滑加速
@@ -92,5 +93,10 @@ public partial class Player : CharacterBody2D
 		CheckDealDamage();//检测是否收到伤害
 	}
 
+	/* 当血量变化后，同步更改血条 */
+    private void OnHelathChange()
+    {
+        hp.Value = healthComponent.currentHealth;
+    }
 
 }
