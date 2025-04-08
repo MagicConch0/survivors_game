@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdlcy7ad71w2p"]
 
-[ext_resource type="Script" uid="uid://6ja3ipccowrj" path="res://scenes/UI/VictoryScreen.cs" id="1_3ktt3"]
+[ext_resource type="Script" uid="uid://6ja3ipccowrj" path="res://scenes/UI/EndScreen.cs" id="1_20kt3"]
 
-[node name="VictoryScreen" type="CanvasLayer"]
+[node name="EndScreen" type="CanvasLayer"]
 process_mode = 3
-script = ExtResource("1_3ktt3")
+script = ExtResource("1_20kt3")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -29,14 +29,16 @@ theme_override_constants/margin_bottom = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 24
 text = "Vectory"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "############!!!"
 

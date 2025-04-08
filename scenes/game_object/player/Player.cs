@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float ACCELERATION_SMOOTHING = 25;//加速度平滑度
 
-	private HealthComponent healthComponent;//获取健康组件
+	public HealthComponent healthComponent;//获取健康组件
 
 	private Timer damageIntervalTimer;//用于控制可受到伤害的间隔
 
@@ -62,8 +62,6 @@ public partial class Player : CharacterBody2D
 	{
 		if (number_colliding_bodies == 0 || !damageIntervalTimer.IsStopped())//如果没有与敌人碰撞，或者在伤害间隔内，则不受到伤害
 		{
-			GD.Print("number_colliding_bodies: " + number_colliding_bodies);
-			GD.Print("damageIntervalTimer is Stop:" + damageIntervalTimer.IsStopped());
 			return;
 		}
 		healthComponent.Damage(1f);//受到伤害

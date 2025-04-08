@@ -27,6 +27,11 @@ public partial class HealthComponent : Node
 	{
 		currentHealth = Math.Max(currentHealth - damage, 0);//受到伤害后，当前生命值减去伤害，且限制最低生命值为0
 		EmitSignal("HelathChanged");//发射生命值改变信号
+		Callable.From(CheckDied).CallDeferred();//延迟调用死亡检测方法
+	}
+	/* 检测是否死亡 */
+	public void CheckDied()
+	{
 		if (currentHealth == 0)
 		{//如果生命值等于0，发出死亡信号，随即消除自身的父节点
 			EmitSignal("died");
