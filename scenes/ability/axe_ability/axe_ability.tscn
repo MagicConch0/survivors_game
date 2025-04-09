@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://8iuqe3tfsjb5"]
+
+[ext_resource type="Texture2D" uid="uid://bkx0qfn4c2ki2" path="res://scenes/ability/axe_ability/axe.png" id="1_4j4y7"]
+[ext_resource type="Script" uid="uid://bkqlt04pa3r0j" path="res://scenes/ability/axe_ability/AxeAbility.cs" id="1_m8265"]
+[ext_resource type="PackedScene" uid="uid://bbc8f38o73jix" path="res://scenes/Component/hitbox_component.tscn" id="2_t08t3"]
+
+[sub_resource type="Animation" id="Animation_m8265"]
+resource_name = "default"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_r58rl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r58rl"]
+_data = {
+&"RESET": SubResource("Animation_r58rl"),
+&"default": SubResource("Animation_m8265")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m8265"]
+radius = 4.8
+
+[node name="AxeAbility" type="Node2D"]
+script = ExtResource("1_m8265")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_r58rl")
+}
+autoplay = "default"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4j4y7")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_t08t3")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+scale = Vector2(1.74, 0.5)
+shape = SubResource("CircleShape2D_m8265")
