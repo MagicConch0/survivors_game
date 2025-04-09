@@ -38,10 +38,10 @@ experienceManager = NodePath("../ExperienceManager")
 [node name="-----------------------------------------------" type="Node" parent="."]
 
 [node name="GameCamera" parent="." instance=ExtResource("3_fvde6")]
-limit_left = 0
-limit_top = 0
-limit_right = 945
-limit_bottom = 580
+limit_left = -100
+limit_top = -50
+limit_right = 1250
+limit_bottom = 800
 limit_smoothed = true
 position_smoothing_enabled = true
 
