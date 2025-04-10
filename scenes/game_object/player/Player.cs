@@ -14,11 +14,16 @@ public partial class Player : CharacterBody2D
 
 	[Export]
 	public Node abilitys;//引用能力组件
+
+	[Export]
+	public AnimationPlayer animationPlayer;//动画组件
+	[Export]
+	public Node2D visuals;//视觉组件，玩家精灵节点的父级，用于控制玩家左右翻转
 	public HealthComponent healthComponent;//获取健康组件
 
 	private Timer damageIntervalTimer;//用于控制可受到伤害的间隔
 
-	private ProgressBar hp ;//获取血条
+	private ProgressBar hp;//获取血条
 	private int number_colliding_bodies = 0;//与玩家碰撞的敌人数量
 	public override void _Ready()
 	{
@@ -35,14 +40,22 @@ public partial class Player : CharacterBody2D
 		hp.Value = healthComponent.currentHealth;//初始化当前血量
 		healthComponent.HelathChanged += OnHelathChange;//连接血量改变事件
 		GameEvents.Instance.AbilityUpgradeAdded += OnAbilityUpgradeAdded;
+		if (animationPlayer == null)
+		{
+			throw new Exception("玩家(Player)缺少一个动画组件(AnimationPlayer)的引用");
+		}
+		if (visuals == null)
+		{
+			throw new Exception("玩家(Player)缺少一个视觉组件(Visuals)的引用");
+		}
 
 	}
 
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
 
 
-    public override void _Process(double delta)
+	public override void _Process(double delta)
 	{
 		Vector2 target_speed = GetMoverInput() * SPEED;
 		//使任务角色的速度逐渐接近目标速度，以此来实现平滑加速
@@ -59,6 +72,18 @@ public partial class Player : CharacterBody2D
 	{
 		var x = Input.GetActionStrength("右") - Input.GetActionStrength("左");
 		var y = Input.GetActionStrength("下") - Input.GetActionStrength("上");
+		if (x != 0 || y != 0)
+		{
+			if (x != 0)
+			{
+				visuals.Scale = new Vector2(Math.Sign(x), 1);//控制左右翻转，sing（x），如果x大于0会返回1，小于0会返回-1
+			}
+			animationPlayer.Play("walk");
+		}
+		else
+		{
+			animationPlayer.Play("RESET");
+		}
 		return new Godot.Vector2(x, y).Normalized();//向量归一化
 	}
 
@@ -98,10 +123,10 @@ public partial class Player : CharacterBody2D
 	}
 
 	/* 当血量变化后，同步更改血条 */
-    private void OnHelathChange()
-    {
-        hp.Value = healthComponent.currentHealth;
-    }
+	private void OnHelathChange()
+	{
+		hp.Value = healthComponent.currentHealth;
+	}
 
 
 
@@ -111,19 +136,20 @@ public partial class Player : CharacterBody2D
 	/// <param name="upgrade">当前选择的升级</param>
 	/// <param name="currentAbility">已经拥有的升级</param>
 	/// <exception cref="NotImplementedException"></exception>
-    private void OnAbilityUpgradeAdded(Ability_upgrade upgrade, Dictionary<string, Dictionary> currentAbility)
-    {	
+	private void OnAbilityUpgradeAdded(Ability_upgrade upgrade, Dictionary<string, Dictionary> currentAbility)
+	{
 		//判断技能类型是不是具体技能（Ability），而不是技能的升级(Ability_upgrade)，
 		//Ability了类继承自Ability_upgrade，是Ability_upgrade的之类，
 		//如果upgrade可以转换成Ability类型，则说明这是个具体的技能，而不是升级某个技能的属性
-		if(upgrade is not Ability){
+		if (upgrade is not Ability)
+		{
 			return;
 		}
 		Ability upgrade_ability = upgrade as Ability;
 		abilitys.AddChild(upgrade_ability.AbilityControllerScene.Instantiate());//将能力实例化且添加到场景
 
 
-    }
+	}
 
 
 
