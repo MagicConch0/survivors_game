@@ -9,5 +9,7 @@ public partial class Ability_upgrade : Resource
 	public string name;//名字
 	[Export(PropertyHint.MultilineText)]
 	public string description;//描述
+	[Export]
+	public int maxNumber = 0;//控制可升级次数
 
 }

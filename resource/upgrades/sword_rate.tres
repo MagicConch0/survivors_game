@@ -7,3 +7,4 @@ script = ExtResource("1_sheta")
 id = "sword_rate"
 name = "Sword Quickness"
 description = "剑的攻击频率加快10%"
+maxNumber = 100

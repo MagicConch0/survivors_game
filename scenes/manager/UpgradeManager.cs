@@ -37,6 +37,9 @@ public partial class UpgradeManager : Node
 		Array<Ability_upgrade> filteredUpgrades = upgrade_pool.Duplicate();//复制当前升级池
 		for (int i = 0; i < 2; i++)//界面显示俩张选择卡片，如果选择三张则循环3次
 		{
+			if(filteredUpgrades.Count == 0 ){
+				break;
+			}
 			//升级时从能力池中随机选择一个，upgrade_pool.PickRandom()作用是从数组中随机选择一项返回，可能返回空值
 			Ability_upgrade chosen_upgrade = filteredUpgrades.PickRandom();
 			chosenUpgrades.Add(chosen_upgrade);
@@ -71,6 +74,13 @@ public partial class UpgradeManager : Node
 			Dictionary upgradeData = current_upgrade[ability_Upgrade.id];
 			upgradeData["quantity"] = (int)upgradeData["quantity"] + 1;//升级计数加1
 		}
+
+		if(ability_Upgrade.maxNumber > 0 ){//如果技能最大升级次数小于0，则说明技能可以无限次升级
+			if((int)current_upgrade[ability_Upgrade.id]["quantity"] == ability_Upgrade.maxNumber){//如果已升级次数 = 技能最大升级出书，则从技能池中删除该技能
+				upgrade_pool.Remove(ability_Upgrade);
+			}
+		}
+
 		GameEvents.Instance.EmitAbilityUpgradeAdded(ability_Upgrade, current_upgrade);//发射升级技能信号
 	}
 

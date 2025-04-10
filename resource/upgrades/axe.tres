@@ -9,3 +9,4 @@ AbilityControllerScene = ExtResource("1_kf5ic")
 id = "axe"
 name = "Axe"
 description = "扔出一把围绕你飞行的斧头"
+maxNumber = 1
