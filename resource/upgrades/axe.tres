@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dy2dmtvm154pf"]
+
+[ext_resource type="PackedScene" uid="uid://bk011qqfhvtki" path="res://scenes/ability/axe_ability_controller/axe_ability_controller.tscn" id="1_kf5ic"]
+[ext_resource type="Script" uid="uid://de44rby6e2iuy" path="res://resource/upgrades/Ability.cs" id="1_mybub"]
+
+[resource]
+script = ExtResource("1_mybub")
+AbilityControllerScene = ExtResource("1_kf5ic")
+id = "axe"
+name = "Axe"
+description = "扔出一把围绕你飞行的斧头"

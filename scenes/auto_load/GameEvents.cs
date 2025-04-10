@@ -12,8 +12,12 @@ public partial class GameEvents : Node
 	[Signal]
 	public delegate void ExperienceVialCollectedEventHandler(float experience);
 
-	/* 
-	声明能力升级信号 */
+
+	/// <summary>
+	/// 声明能力升级信号
+	/// </summary>
+	/// <param name="upgrade">当前选择的升级</param>
+	/// <param name="currentAbility">已经拥有的升级</param>
 	[Signal]
 	public delegate void AbilityUpgradeAddedEventHandler(Ability_upgrade upgrade, Dictionary<string, Dictionary> currentAbility);
 

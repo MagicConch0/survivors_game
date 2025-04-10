@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 /* 用于生成升级时选择技能的UI界面 */
 public partial class UpgradeScreen : CanvasLayer
@@ -21,8 +22,11 @@ public partial class UpgradeScreen : CanvasLayer
 	}
 
 	/* 用于生成升级卡牌选项，传入几个技能，生成对应的技能卡牌 */
-	public void SetAbilityUpgrades(Ability_upgrade[] ability_Upgrades)
+	public void SetAbilityUpgrades(Array<Ability_upgrade> ability_Upgrades)
 	{
+		if(ability_Upgrades.Count ==0  ){//说明已经没有可用升级项
+			return;
+		}
 		foreach (Ability_upgrade ability_Upgrade in ability_Upgrades)
 		{
 			AbilityUpgradeCard upgradeCard_instantiate = upgrade_card_scene.Instantiate() as AbilityUpgradeCard;//示例化卡牌

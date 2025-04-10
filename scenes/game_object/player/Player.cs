@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.Design;
 using Godot;
+using Godot.Collections;
 
 
 public partial class Player : CharacterBody2D
@@ -11,6 +12,8 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float ACCELERATION_SMOOTHING = 25;//加速度平滑度
 
+	[Export]
+	public Node abilitys;//引用能力组件
 	public HealthComponent healthComponent;//获取健康组件
 
 	private Timer damageIntervalTimer;//用于控制可受到伤害的间隔
@@ -31,10 +34,13 @@ public partial class Player : CharacterBody2D
 		hp.MaxValue = healthComponent.maxHealth;//初始化最大血量
 		hp.Value = healthComponent.currentHealth;//初始化当前血量
 		healthComponent.HelathChanged += OnHelathChange;//连接血量改变事件
+		GameEvents.Instance.AbilityUpgradeAdded += OnAbilityUpgradeAdded;
+
 	}
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
+
 
     public override void _Process(double delta)
 	{
@@ -96,5 +102,29 @@ public partial class Player : CharacterBody2D
     {
         hp.Value = healthComponent.currentHealth;
     }
+
+
+
+	/// <summary>
+	/// 升级时选择能力后触发
+	/// </summary>
+	/// <param name="upgrade">当前选择的升级</param>
+	/// <param name="currentAbility">已经拥有的升级</param>
+	/// <exception cref="NotImplementedException"></exception>
+    private void OnAbilityUpgradeAdded(Ability_upgrade upgrade, Dictionary<string, Dictionary> currentAbility)
+    {	
+		//判断技能类型是不是具体技能（Ability），而不是技能的升级(Ability_upgrade)，
+		//Ability了类继承自Ability_upgrade，是Ability_upgrade的之类，
+		//如果upgrade可以转换成Ability类型，则说明这是个具体的技能，而不是升级某个技能的属性
+		if(upgrade is not Ability){
+			return;
+		}
+		Ability upgrade_ability = upgrade as Ability;
+		abilitys.AddChild(upgrade_ability.AbilityControllerScene.Instantiate());//将能力实例化且添加到场景
+
+
+    }
+
+
 
 }
