@@ -6,7 +6,6 @@ public partial class BasicEnemy : CharacterBody2D
 	[Export]
 	public float speed1 = 50;//移动速度
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		var player_position = Get_directory_to_player();
@@ -14,9 +13,10 @@ public partial class BasicEnemy : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	/* 
-		 获取玩家位置
-	 */
+	/// <summary>
+	/// 获取玩家位置
+	/// </summary>
+	/// <returns>记录玩家位置的Vector2向量</returns>
 	private Vector2 Get_directory_to_player()
 	{
 		var player_nodes = GetTree().GetNodesInGroup("player");
