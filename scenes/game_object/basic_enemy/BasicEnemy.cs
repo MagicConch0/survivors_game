@@ -1,16 +1,33 @@
 using Godot;
 using System;
+using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 
 public partial class BasicEnemy : CharacterBody2D
 {
 	[Export]
-	public float speed1 = 50;//移动速度
+	public float speed = 50;//移动速度
+
+	public Node2D visuals;
+
+    public override void _Ready()
+    {
+
+		visuals = GetNode<Node2D>("Visuals");
+    }
 
 	public override void _Process(double delta)
 	{
 		var player_position = Get_directory_to_player();
-		Velocity = (player_position - GlobalPosition).Normalized() * speed1;
+		Velocity = (player_position - GlobalPosition).Normalized() * speed;
 		MoveAndSlide();
+		//根据移动反向调整敌人朝向
+		float move_silde = MathF.Sign(Velocity.X);
+		if (move_silde != 0)
+		{
+			GD.Print(move_silde);
+			visuals.Scale =new Vector2(-move_silde,1);
+		}
 	}
 
 	/// <summary>
