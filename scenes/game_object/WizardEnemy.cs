@@ -1,9 +1,7 @@
 using Godot;
 using System;
-using System.Net.NetworkInformation;
-using System.Text.RegularExpressions;
 
-public partial class BasicEnemy : CharacterBody2D
+public partial class WizardEnemy : CharacterBody2D
 {
 	[Export]
 
@@ -11,16 +9,17 @@ public partial class BasicEnemy : CharacterBody2D
 
 	private VelocityComponent velocityComponent;//移动组件
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 
 		visuals = GetNode<Node2D>("Visuals");
 		velocityComponent = GetNode<VelocityComponent>("VelocityComponent");
-		if(velocityComponent is null ){
+		if (velocityComponent is null)
+		{
 			throw new Exception("基本敌人(BasicEnemy)没有绑定移动组件(VelocityComponent)!!!");
-		}
-    }
-	
+		} 
+	}
+
 	public override void _Process(double delta)
 	{
 		//移动敌人
@@ -31,12 +30,7 @@ public partial class BasicEnemy : CharacterBody2D
 		if (move_silde != 0)
 		{
 			GD.Print(move_silde);
-			visuals.Scale =new Vector2(-move_silde,1);
+			visuals.Scale = new Vector2(move_silde, 1);
 		}
 	}
 }
-
-
-
-
-

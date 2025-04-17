@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://cen1n50dyo7dd"]
+
+[ext_resource type="Texture2D" uid="uid://cxdiirkm701jk" path="res://scenes/game_object/wizard_enemy/wizard_enemy.png" id="1_5334c"]
+[ext_resource type="PackedScene" uid="uid://cl58wmggog8pv" path="res://scenes/Component/health_component.tscn" id="1_a2fo3"]
+[ext_resource type="Script" uid="uid://clxe1027ujyk2" path="res://scenes/game_object/WizardEnemy.cs" id="1_cy6hn"]
+[ext_resource type="PackedScene" uid="uid://bkca6xg8fgst7" path="res://scenes/Component/death_component.tscn" id="2_a2fo3"]
+[ext_resource type="PackedScene" uid="uid://d2h1dk4ecbjoj" path="res://scenes/Component/hurtbox_component.tscn" id="3_4ut4a"]
+[ext_resource type="PackedScene" uid="uid://kd66h2hbw2xt" path="res://scenes/Component/velocity_component.tscn" id="5_trajp"]
+[ext_resource type="PackedScene" uid="uid://7i1ixnfu3dhk" path="res://scenes/Component/vial_drop_component.tscn" id="5_y72j8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ut4a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_trajp"]
+radius = 4.0
+
+[node name="WizardEnemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_cy6hn")
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_a2fo3")]
+maxHealth = 15.0
+
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("healthComponent", "sprite2D") instance=ExtResource("2_a2fo3")]
+healthComponent = NodePath("../HealthComponent")
+sprite2D = NodePath("../Visuals/Sprite2D")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_trajp")]
+maxSpeed = 60.0
+acceleration = 2.0
+
+[node name="VialDropComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_y72j8")]
+healthComponent = NodePath("../HealthComponent")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("3_4ut4a")]
+position = Vector2(0, -7)
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_4ut4a")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+texture = ExtResource("1_5334c")
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 0
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_trajp")
