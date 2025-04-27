@@ -10,9 +10,12 @@ public partial class EnemyManager : Node
 	// Called when the node enters the scene tree for the first time.
 
 	[Export]
-	PackedScene enemyScene;//敌人资源
+	PackedScene basicEnemy;//基本敌人
+
 
 	[Export]
+	PackedScene wizardEnemy;//女巫敌人
+							// [Export]
 	public float SPAWN_RADIUS = 320;//生成半径
 
 	[Export]
@@ -23,8 +26,19 @@ public partial class EnemyManager : Node
 	Godot.Timer timer;//生成敌人计时器
 
 	private double baseSpawnTime = 0f;//基础敌人生成时间
+
+	private WeightedTable enemyWeight ;//生成敌人权重表
 	public override void _Ready()
 	{
+		GD.Print("开始初始化");
+		enemyWeight= new WeightedTable([]);
+		GD.Print("enemyWeight:" + enemyWeight);
+		enemyWeight.AddItem(basicEnemy,10);//添加基本敌人，权重为10
+		GD.Print("table:" + enemyWeight.Items);
+		GD.Print("weightSun:" + enemyWeight.WeightSun);
+		
+		GD.Print("初始化完成");
+		// enemyWeight.AddItem(wizardEnemy,5);//添加女巫敌人，权重为10
 
 		timer = GetNode<Godot.Timer>("Timer");
 		baseSpawnTime = timer.WaitTime;
@@ -95,23 +109,34 @@ public partial class EnemyManager : Node
 		{
 			return;
 		}
-		//实例化敌人
-		Node2D enemy = enemyScene.Instantiate() as Node2D;
+        //实例化敌人
+        PackedScene enemyPackedScene = enemyWeight.PickItem<PackedScene>();
+
+		GD.Print("enemyPackedScene:" + enemyPackedScene);
+		if(enemyPackedScene == null ){
+			GD.Print("return");
+			return;
+		}
+        Node2D enemyInstant = enemyPackedScene.Instantiate<Node2D>();
 
 		//获取实体层，将敌人添加到实体层中，用y轴判断位置，y轴大的覆盖y轴小的
 		Node2D entitys_layer = GetTree().GetFirstNodeInGroup("enities_layer") as Node2D;
-		entitys_layer.AddChild(enemy);//添加到实体层节点
-		enemy.GlobalPosition = GetSpawnPosition();//设置敌人位置
+		entitys_layer.AddChild(enemyInstant);//添加到实体层节点
+		enemyInstant.GlobalPosition = GetSpawnPosition();//设置敌人位置
 	}
 
 	/// <summary>
-	/// 当游戏难度升级时触发,随着时间增长组件加快敌人生成速度，限制在最块0.3秒一波
+	/// 当游戏难度升级时触发,随着时间增长组件加快敌人生成速度，限制在最快0.3秒一波
 	/// </summary>
 	/// <param name="arenaDifficulty">当前游戏难度</param>
 	private void OnArenaDifficultyIncreased(int arenaDifficulty)
 	{
 		double time_off = (.1 / 12) * arenaDifficulty;
 		timer.WaitTime = Math.Max(baseSpawnTime - time_off, .3);
+
+		if(arenaDifficulty == 6 ){//当难度升级到6级时，添加新类型的敌人
+			enemyWeight.AddItem(wizardEnemy,5);//添加敌人女巫，出现权重为5
+		}
 
 	}
 }

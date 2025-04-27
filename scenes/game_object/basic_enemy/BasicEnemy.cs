@@ -30,7 +30,6 @@ public partial class BasicEnemy : CharacterBody2D
 		float move_silde = MathF.Sign(velocityComponent.velocity.X);
 		if (move_silde != 0)
 		{
-			GD.Print(move_silde);
 			visuals.Scale =new Vector2(-move_silde,1);
 		}
 	}

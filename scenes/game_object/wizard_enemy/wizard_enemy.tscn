@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cxdiirkm701jk" path="res://scenes/game_object/wizard_enemy/wizard_enemy.png" id="1_5334c"]
 [ext_resource type="PackedScene" uid="uid://cl58wmggog8pv" path="res://scenes/Component/health_component.tscn" id="1_a2fo3"]
-[ext_resource type="Script" uid="uid://clxe1027ujyk2" path="res://scenes/game_object/WizardEnemy.cs" id="1_cy6hn"]
+[ext_resource type="Script" uid="uid://clxe1027ujyk2" path="res://scenes/game_object/wizard_enemy/WizardEnemy.cs" id="1_cy6hn"]
 [ext_resource type="PackedScene" uid="uid://bkca6xg8fgst7" path="res://scenes/Component/death_component.tscn" id="2_a2fo3"]
 [ext_resource type="PackedScene" uid="uid://d2h1dk4ecbjoj" path="res://scenes/Component/hurtbox_component.tscn" id="3_4ut4a"]
 [ext_resource type="PackedScene" uid="uid://kd66h2hbw2xt" path="res://scenes/Component/velocity_component.tscn" id="5_trajp"]
