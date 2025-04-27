@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class WizardEnemy : CharacterBody2D
 {
@@ -9,6 +10,9 @@ public partial class WizardEnemy : CharacterBody2D
 
 	private VelocityComponent velocityComponent;//移动组件
 
+	private AnimationPlayer animationPlayer;
+
+	private bool isMoving = false;//控制是否移动
 	public override void _Ready()
 	{
 
@@ -17,14 +21,28 @@ public partial class WizardEnemy : CharacterBody2D
 		if (velocityComponent is null)
 		{
 			throw new Exception("基本敌人(BasicEnemy)没有绑定移动组件(VelocityComponent)!!!");
-		} 
+		}
+
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		if (animationPlayer is null)
+		{
+			throw new Exception("基本敌人(BasicEnemy)没有绑定移动组件(AnimationPlayer)!!!");
+		}
 	}
 
 	public override void _Process(double delta)
 	{
-		//移动敌人
-		velocityComponent.AccelerateInPlayer();
+		if (isMoving)
+		{
+			//移动敌人
+			velocityComponent.AccelerateInPlayer();
+		}
+		else
+		{
+			velocityComponent.Decelerate();
+		}
 		velocityComponent.Move(this);
+
 		//根据移动反向调整敌人朝向
 		float move_silde = MathF.Sign(velocityComponent.velocity.X);
 		if (move_silde != 0)
@@ -32,5 +50,14 @@ public partial class WizardEnemy : CharacterBody2D
 			GD.Print(move_silde);
 			visuals.Scale = new Vector2(move_silde, 1);
 		}
+
+	}
+	/// <summary>
+	/// 控制当前角色是否移动
+	/// </summary>
+	/// <param name="moving">是/否</param>
+	public void SetIsMoving(bool moving)
+	{
+		isMoving = moving;
 	}
 }

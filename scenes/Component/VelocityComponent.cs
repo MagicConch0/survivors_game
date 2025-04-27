@@ -35,6 +35,14 @@ public partial class VelocityComponent : Node
 		AccelerateIndirection(direction);
 
 	}
+	/// <summary>
+	/// 停止移动，移动速度逐渐减速到0
+	/// </summary>
+	public  void Decelerate(){
+		AccelerateIndirection(Vector2.Zero);
+	}
+
+
 
 	/// <summary>
 	/// 平滑加速，逐渐达到最大移动速度

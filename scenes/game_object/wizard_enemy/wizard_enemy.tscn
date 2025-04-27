@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cen1n50dyo7dd"]
+[gd_scene load_steps=13 format=3 uid="uid://cen1n50dyo7dd"]
 
 [ext_resource type="Texture2D" uid="uid://cxdiirkm701jk" path="res://scenes/game_object/wizard_enemy/wizard_enemy.png" id="1_5334c"]
 [ext_resource type="PackedScene" uid="uid://cl58wmggog8pv" path="res://scenes/Component/health_component.tscn" id="1_a2fo3"]
@@ -7,6 +7,109 @@
 [ext_resource type="PackedScene" uid="uid://d2h1dk4ecbjoj" path="res://scenes/Component/hurtbox_component.tscn" id="3_4ut4a"]
 [ext_resource type="PackedScene" uid="uid://kd66h2hbw2xt" path="res://scenes/Component/velocity_component.tscn" id="5_trajp"]
 [ext_resource type="PackedScene" uid="uid://7i1ixnfu3dhk" path="res://scenes/Component/vial_drop_component.tscn" id="5_y72j8"]
+
+[sub_resource type="Animation" id="Animation_rquut"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(3.36358, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, -0.174533, 0.261799]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(2.82843, 2.82843, 2.82843, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.5, 0.8), Vector2(0.9, 1.1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.05, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"SetIsMoving"
+}, {
+"args": [false],
+"method": &"SetIsMoving"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_sjtyn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sjtyn"]
+_data = {
+&"RESET": SubResource("Animation_sjtyn"),
+&"walk": SubResource("Animation_rquut")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ut4a"]
 
@@ -18,6 +121,12 @@ collision_layer = 8
 collision_mask = 9
 script = ExtResource("1_cy6hn")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_sjtyn")
+}
+autoplay = "walk"
+
 [node name="HealthComponent" parent="." instance=ExtResource("1_a2fo3")]
 maxHealth = 15.0
 
@@ -27,7 +136,7 @@ sprite2D = NodePath("../Visuals/Sprite2D")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("5_trajp")]
 maxSpeed = 60.0
-acceleration = 2.0
+acceleration = 20.0
 
 [node name="VialDropComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_y72j8")]
 healthComponent = NodePath("../HealthComponent")
