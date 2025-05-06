@@ -37,6 +37,10 @@ enemy=""
 enities_layer="实体层，用于控制绘画顺序，例如防止敌人盖住玩家"
 Foreground_layer="前景层，保证在这个层里面的东西不会被其它节点覆盖"
 
+[gui]
+
+theme/custom="uid://cpvon4csh0trl"
+
 [input]
 
 "上"={

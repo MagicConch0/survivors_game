@@ -30,16 +30,9 @@ public partial class EnemyManager : Node
 	private WeightedTable enemyWeight ;//生成敌人权重表
 	public override void _Ready()
 	{
-		GD.Print("开始初始化");
 		enemyWeight= new WeightedTable([]);
-		GD.Print("enemyWeight:" + enemyWeight);
 		enemyWeight.AddItem(basicEnemy,10);//添加基本敌人，权重为10
-		GD.Print("table:" + enemyWeight.Items);
-		GD.Print("weightSun:" + enemyWeight.WeightSun);
 		
-		GD.Print("初始化完成");
-		// enemyWeight.AddItem(wizardEnemy,5);//添加女巫敌人，权重为10
-
 		timer = GetNode<Godot.Timer>("Timer");
 		baseSpawnTime = timer.WaitTime;
 		//连接信号：将timer的Timeout信号连接到当前类的OnTimerTimeout方法
@@ -112,9 +105,7 @@ public partial class EnemyManager : Node
         //实例化敌人
         PackedScene enemyPackedScene = enemyWeight.PickItem<PackedScene>();
 
-		GD.Print("enemyPackedScene:" + enemyPackedScene);
 		if(enemyPackedScene == null ){
-			GD.Print("return");
 			return;
 		}
         Node2D enemyInstant = enemyPackedScene.Instantiate<Node2D>();
