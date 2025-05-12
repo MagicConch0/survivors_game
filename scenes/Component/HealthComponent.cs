@@ -1,6 +1,8 @@
 using Godot;
 using System;
-
+/// <summary>
+/// 健康组件
+/// </summary>
 public partial class HealthComponent : Node
 {
 
@@ -35,6 +37,7 @@ public partial class HealthComponent : Node
 		if (currentHealth == 0)
 		{//如果生命值等于0，发出死亡信号，随即消除自身的父节点
 			EmitSignal("died");
+			// Callable.From(Owner.QueueFree());
 			Owner.QueueFree();//Owner表示当前节点的"拥有者"节点。它建立了节点之间的父子关系之外的另一种重要关联。
 		}
 	}

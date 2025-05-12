@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cae553ieuofdf"]
+
+[ext_resource type="Shader" uid="uid://dqgnfgwypt7s6" path="res://scenes/Component/hurtbox_component.gdshader" id="1_qd1tl"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_qd1tl")
+shader_parameter/lerp_percent = 0.0

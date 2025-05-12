@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
-/* 受伤控制组件 */
+/// <summary>
+/// 受伤控制组件
+/// </summary>
 public partial class HurtboxComponent : Area2D
 {
 	[Export]

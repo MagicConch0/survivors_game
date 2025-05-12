@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://qclngayee3mw"]
+[gd_scene load_steps=14 format=3 uid="uid://qclngayee3mw"]
 
 [ext_resource type="Texture2D" uid="uid://qj60ve5t3bkc" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="1_umf6e"]
 [ext_resource type="Script" uid="uid://b4x82l3kgdj4m" path="res://scenes/game_object/basic_enemy/BasicEnemy.cs" id="1_yibgo"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bkca6xg8fgst7" path="res://scenes/Component/death_component.tscn" id="4_bq7hi"]
 [ext_resource type="PackedScene" uid="uid://d2h1dk4ecbjoj" path="res://scenes/Component/hurtbox_component.tscn" id="4_elloc"]
 [ext_resource type="PackedScene" uid="uid://7i1ixnfu3dhk" path="res://scenes/Component/vial_drop_component.tscn" id="4_pcrk2"]
+[ext_resource type="PackedScene" uid="uid://bljqfjv82k7q5" path="res://scenes/Component/hit_flash_component.tscn" id="6_v58qd"]
 [ext_resource type="PackedScene" uid="uid://kd66h2hbw2xt" path="res://scenes/Component/velocity_component.tscn" id="7_jkye5"]
 
 [sub_resource type="Animation" id="Animation_bq7hi"]
@@ -96,11 +97,15 @@ drop_percent = 1.0
 [node name="HealthComponent" parent="." instance=ExtResource("3_isd1k")]
 maxHealth = 5.0
 
-[node name="DeathComponent" parent="." node_paths=PackedStringArray("healthComponent", "sprite2D") instance=ExtResource("4_bq7hi")]
+[node name="VelocityComponent" parent="." instance=ExtResource("7_jkye5")]
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("healthComponent", "sprite2D") instance=ExtResource("6_v58qd")]
 healthComponent = NodePath("../HealthComponent")
 sprite2D = NodePath("../Visuals/Sprite2D")
 
-[node name="VelocityComponent" parent="." instance=ExtResource("7_jkye5")]
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("healthComponent", "sprite2D") instance=ExtResource("4_bq7hi")]
+healthComponent = NodePath("../HealthComponent")
+sprite2D = NodePath("../Visuals/Sprite2D")
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_elloc")]
 healthComponent = NodePath("../HealthComponent")
